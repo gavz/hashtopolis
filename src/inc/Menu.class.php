@@ -6,13 +6,22 @@
  */
 class Menu {
   private $active;
+
+  private static $instance = null;
+
+  public static function get($name = ""){
+    if(self::$instance == null){
+      self::$instance = new Menu($name);
+    }
+    return self::$instance;
+  }
   
   /**
    * Construct a new Menu class.
    *
    * @param string $name name of the identifier in the menu to set active
    */
-  public function __construct($name = "") {
+  private function __construct($name = "") {
     $this->active = $name;
   }
   
@@ -41,7 +50,7 @@ class Menu {
       return "";
     }
     if ($name == $this->active) {
-      return " class='active'";
+      return " active";
     }
     return "";
   }

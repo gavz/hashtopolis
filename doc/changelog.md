@@ -1,4 +1,75 @@
-# v0.5.1 -> x.x.x
+# v0.7.1 -> v0.8.0
+
+## Features
+
+- The server can store sent debug output from Hashcat sent by the agent.
+- Files now also are associated to an Access Group to control the visibility of files.
+- Agent data about device temperature and util is collected and can be viewed on the server.
+- Notes can be added to tasks
+- Static chunking (if for some reasone a fixed number of chunks or static chunk size should be used for a task)
+- The server can provide a list of deleted filenames to the agent when he asks for.
+- Tasks can now be copied to preconfigured tasks and preconfigured tasks can also be copied to preconfigured tasks.
+- A test framework was added to run automated tests on Travis.
+- To make sure rules are applied before rejecting, piping can be enforced.
+- Added Notification type for Slack.
+
+## Enhancements
+
+- Task attack commands can be changed after creation, e.g. to fix typos
+- Switch between tasks and archived ones is easier
+- Archived tasks can be deleted at once
+- Task priority can now be set directly in the task creation form.
+
+## Bugfixes
+
+- New task creation page now also shows the other file type.
+- New file creation with the user API now takes the right file type.
+- Vouchers are tested for uniqueness on creation to avoid duplicated ones.
+- Disabling rule splitting when having a prince task.
+- Fixed non-working secret checkbox for hashlists.
+
+# v0.7.0 -> v0.7.1
+
+## Bugfixes
+
+- Fixed permission check for file downloads with URLs from the user API
+- Fixed issue with creating supertasks from preconfigured task list
+- Fixed creation of tasks from preconfigured tasks out of the hashlist view
+- Fixed mask import
+- Fixed hiding of mask imports in preconfigured task list on hashlist page
+
+# v0.6.0 -> v0.7.0
+
+## Features
+
+- Tasks which are recognized containing large rule files and not giving good benchmarks result in splitting into subtasks
+- Most of the tables can now be easily ordered and searched with the datatables plugin
+- Agent Errors can be handled better
+- New User API allowing access to all functions without the webinterface via simple JSON commands.
+- Added new filetype (Other) for all non rules/wordlist files like hashcat charsets etc.
+- File types can be edited of existing files.
+- Tasks can now be archived instead of being deleted.
+
+## Enhancements
+
+- Width of the container is increased to have more space on large screens.
+- Standard buttons have now icons instead of text to use less space.
+- Hashcat is configured already as crack to make it easier for users to get started.
+
+## Bugfixes
+
+- Using correct function to get superhashlistId on zapping from webinterface.
+- Zapping from the website will now also issue zaps for non-salted hashlists.
+- Fixed zapping querying on progress sending from agent to also match for agent null values.
+
+# v0.5.1 -> v0.6.0
+
+## Features
+
+- Added autofocus for login field
+- Added fine grained permission management
+- Updated Bootstrap and jQuery to newest versions
+- Added Icons instead of images
 
 ## Bugfixes
 

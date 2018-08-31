@@ -10,7 +10,7 @@ abstract class PQuery { // include only generalized query values
   const QUERY  = "query";
   const ACTION = "action";
   const TOKEN  = "token";
-  
+
   /**
    * This function checks if all required values are given in the query
    *
@@ -27,8 +27,17 @@ class PQueryLogin extends PQuery {
     }
     return true;
   }
-  
+
   const CLIENT_SIGNATURE = "clientSignature";
+}
+
+class PQueryGetFileStatus extends PQuery {
+  static function isValid($QUERY) {
+    if (!isset($QUERY[self::TOKEN])) {
+      return false;
+    }
+    return true;
+  }
 }
 
 class PQuerySendProgress extends PQuery {
@@ -38,13 +47,18 @@ class PQuerySendProgress extends PQuery {
     }
     return true;
   }
-  
+
   const CHUNK_ID          = "chunkId";
   const KEYSPACE_PROGRESS = "keyspaceProgress"; // aka curku
   const RELATIVE_PROGRESS = "relativeProgress";
   const SPEED             = "speed";
   const HASHCAT_STATE     = "state";
   const CRACKED_HASHES    = "cracks";
+
+  // optional
+  const DEBUG_OUTPUT      = "debugOutput";
+  const GPU_TEMP = "gpuTemp";
+  const GPU_UTIL = "gpuUtil";
 }
 
 class PQuerySendBenchmark extends PQuery {
@@ -54,7 +68,7 @@ class PQuerySendBenchmark extends PQuery {
     }
     return true;
   }
-  
+
   const TASK_ID = "taskId";
   const TYPE    = "type";
   const RESULT  = "result";
@@ -67,7 +81,7 @@ class PQuerySendKeyspace extends PQuery {
     }
     return true;
   }
-  
+
   const KEYSPACE = "keyspace";
   const TASK_ID  = "taskId";
 }
@@ -79,7 +93,7 @@ class PQueryGetChunk extends PQuery {
     }
     return true;
   }
-  
+
   const TASK_ID = "taskId";
 }
 
@@ -99,7 +113,7 @@ class PQueryGetHashlist extends PQuery {
     }
     return true;
   }
-  
+
   const HASHLIST_ID = "hashlistId";
 }
 
@@ -110,7 +124,7 @@ class PQueryGetFile extends PQuery {
     }
     return true;
   }
-  
+
   const TASK_ID  = "taskId";
   const FILENAME = "file";
 }
@@ -122,7 +136,7 @@ class PQueryClientError extends PQuery {
     }
     return true;
   }
-  
+
   const TASK_ID = "taskId";
   const MESSAGE = "message";
 }
@@ -134,7 +148,7 @@ class PQueryDownloadBinary extends PQuery {
     }
     return true;
   }
-  
+
   const BINARY_TYPE       = "type";
   const BINARY_VERSION_ID = "binaryVersionId";
 }
@@ -146,7 +160,7 @@ class PQueryCheckClientVersion extends PQuery {
     }
     return true;
   }
-  
+
   const VERSION = "version";
   const TYPE    = "type";
 }
@@ -158,7 +172,7 @@ class PQueryUpdateInformation extends PQuery {
     }
     return true;
   }
-  
+
   const DEVICES          = "devices";
   const UID              = "uid";
   const OPERATING_SYSTEM = "os";
@@ -171,7 +185,7 @@ class PQueryRegister extends PQuery {
     }
     return true;
   }
-  
+
   const VOUCHER    = "voucher";
   const AGENT_NAME = "name";
 }
@@ -190,6 +204,8 @@ abstract class PValues {
 class PValuesDownloadBinaryType extends PValues {
   const EXTRACTOR = "7zr";
   const CRACKER   = "cracker";
+  const PRINCE    = "prince";
+  const UFTPD     = "uftpd";
 }
 
 class PValuesBenchmarkType extends PValues {
@@ -224,6 +240,10 @@ abstract class PResponse {
   const RESPONSE = "response";
 }
 
+class PResponseGetFileStatus extends PResponse {
+  const FILENAMES = "filenames";
+}
+
 class PResponseErrorMessage extends PResponse {
   const MESSAGE = "message";
 }
@@ -237,7 +257,8 @@ class PResponseGetHashlist extends PResponse {
 }
 
 class PResponseLogin extends PResponse {
-  const TIMEOUT = "timeout";
+  const TIMEOUT   = "timeout";
+  const MULTICAST = "multicastEnabled";
 }
 
 class PResponseClientUpdate extends PResponse {
@@ -259,6 +280,7 @@ class PResponseGetFile extends PResponse {
   const FILENAME  = "filename";
   const EXTENSION = "extension";
   const URL       = "url";
+  const FILESIZE  = "filesize";
 }
 
 class PResponseGetTask extends PResponse {
@@ -274,6 +296,8 @@ class PResponseGetTask extends PResponse {
   const HASHLIST_ALIAS = "hashlistAlias";
   const KEYSPACE       = "keyspace";
   const REASON         = "reason";
+  const PRINCE         = "usePrince";
+  const ENFORCE_PIPE   = "enforcePipe";
 }
 
 class PResponseGetChunk extends PResponse {
@@ -317,4 +341,5 @@ class PActions {
   const SEND_BENCHMARK            = "sendBenchmark";
   const SEND_PROGRESS             = "sendProgress";
   const TEST_CONNECTION           = "testConnection";
+  const GET_FILE_STATUS           = "getFileStatus";
 }

@@ -98,7 +98,8 @@ $CONF['File'] = array(
   'filename',
   'size',
   'isSecret',
-  'fileType'
+  'fileType',
+  'accessGroupId'
 );
 $CONF['Hash'] = array(
   'hashId',
@@ -177,7 +178,7 @@ $CONF['RegVoucher'] = array(
 $CONF['RightGroup'] = array(
   'rightGroupId',
   'groupName',
-  'level'
+  'permissions'
 );
 $CONF['Session'] = array(
   'sessionId',
@@ -212,7 +213,18 @@ $CONF['Task'] = array(
   'skipKeyspace',
   'crackerBinaryId',
   'crackerBinaryTypeId',
-  'taskWrapperId'
+  'taskWrapperId',
+  'isArchived',
+  'isPrince',
+  'notes',
+  'staticChunks',
+  'chunkSize',
+  'forcePipe'
+);
+$CONF['TaskDebugOutput'] = array(
+  'taskDebugOutputId',
+  'taskId',
+  'output'
 );
 $CONF['TaskWrapper'] = array(
   'taskWrapperId',
@@ -220,7 +232,8 @@ $CONF['TaskWrapper'] = array(
   'taskType',
   'hashlistId',
   'accessGroupId',
-  'taskWrapperName'
+  'taskWrapperName',
+  'isArchived'
 );
 $CONF['User'] = array(
   'userId',
@@ -246,6 +259,31 @@ $CONF['Zap'] = array(
   'solveTime',
   'agentId',
   'hashlistId'
+);
+$CONF['ApiKey'] = array(
+  'apiKeyId',
+  'startValid',
+  'endValid',
+  'accessKey',
+  'accessCount',
+  'userId',
+  'apiGroupId'
+);
+$CONF['ApiGroup'] = array(
+  'apiGroupId',
+  'permissions',
+  'name'
+);
+$CONF['FileDownload'] = array(
+  'fileDownloadId',
+  'time',
+  'fileId',
+  'status'
+);
+$CONF['FileDelete'] = array(
+  'fileDeleteId',
+  'filename',
+  'time'
 );
 
 // relations

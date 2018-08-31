@@ -8,31 +8,43 @@ class DConfigType {
 }
 
 class DConfigAction {
-  const UPDATE_CONFIG = "updateConfig";
-  const REBUILD_CACHE = "rebuildCache";
-  const RESCAN_FILES  = "rescanFiles";
-  const CLEAR_ALL     = "clearAll";
+  const UPDATE_CONFIG      = "updateConfig";
+  const UPDATE_CONFIG_PERM = DAccessControl::SERVER_CONFIG_ACCESS;
+
+  const REBUILD_CACHE      = "rebuildCache";
+  const REBUILD_CACHE_PERM = DAccessControl::SERVER_CONFIG_ACCESS;
+
+  const RESCAN_FILES      = "rescanFiles";
+  const RESCAN_FILES_PERM = DAccessControl::SERVER_CONFIG_ACCESS;
+
+  const CLEAR_ALL      = "clearAll";
+  const CLEAR_ALL_PERM = DAccessControl::SERVER_CONFIG_ACCESS;
 }
 
 // used config values
 class DConfig {
   // Section: Cracking/Tasks
-  const BENCHMARK_TIME  = "benchtime";
-  const CHUNK_DURATION  = "chunktime";
-  const CHUNK_TIMEOUT   = "chunktimeout";
-  const AGENT_TIMEOUT   = "agenttimeout";
-  const FIELD_SEPARATOR = "fieldseparator";
-  const HASHLIST_ALIAS  = "hashlistAlias";
-  const STATUS_TIMER    = "statustimer";
-  const BLACKLIST_CHARS = "blacklistChars";
-  const DISP_TOLERANCE  = "disptolerance";
-  const DEFAULT_BENCH   = "defaultBenchmark";
-  
+  const BENCHMARK_TIME         = "benchtime";
+  const CHUNK_DURATION         = "chunktime";
+  const CHUNK_TIMEOUT          = "chunktimeout";
+  const AGENT_TIMEOUT          = "agenttimeout";
+  const FIELD_SEPARATOR        = "fieldseparator";
+  const HASHLIST_ALIAS         = "hashlistAlias";
+  const STATUS_TIMER           = "statustimer";
+  const BLACKLIST_CHARS        = "blacklistChars";
+  const DISP_TOLERANCE         = "disptolerance";
+  const DEFAULT_BENCH          = "defaultBenchmark";
+  const RULE_SPLIT_SMALL_TASKS = "ruleSplitSmallTasks";
+  const RULE_SPLIT_ALWAYS      = "ruleSplitAlways";
+  const RULE_SPLIT_DISABLE     = "ruleSplitDisable";
+  const PRINCE_LINK            = "princeLink";
+  const AGENT_DATA_LIFETIME    = "agentDataLifetime";
+
   // Section: Yubikey
   const YUBIKEY_ID  = "yubikey_id";
   const YUBIKEY_KEY = "yubikey_key";
   const YUBIKEY_URL = "yubikey_url";
-  
+
   // Section: Finetuning
   const HASHES_PAGE_SIZE     = "pagingSize";
   const NUMBER_LOGENTRIES    = "numLogEntries";
@@ -40,7 +52,7 @@ class DConfig {
   const PLAINTEXT_MAX_LENGTH = "plainTextMaxLength";
   const HASH_MAX_LENGTH      = "hashMaxLength";
   const MAX_HASHLIST_SIZE    = "maxHashlistSize";
-  
+
   // Section: UI
   const TIME_FORMAT           = "timefmt";
   const DONATE_OFF            = "donateOff";
@@ -48,7 +60,9 @@ class DConfig {
   const HASHES_PER_PAGE       = "hashesPerPage";
   const HIDE_IP_INFO          = "hideIpInfo";
   const SHOW_TASK_PERFORMANCE = "showTaskPerformance";
-  
+  const AGENT_STAT_LIMIT      = "agentStatLimit";
+  const AGENT_STAT_TENSION    = "agentStatTension";
+
   // Section: Server
   const BASE_URL           = "baseUrl";
   const BASE_HOST          = "baseHost";
@@ -58,8 +72,14 @@ class DConfig {
   const CONTACT_EMAIL      = "contactEmail";
   const VOUCHER_DELETION   = "voucherDeletion";
   const S_NAME             = "jeSuisHashtopussy";
-  
-  
+
+  // Section: Multicast
+  const MULTICAST_ENABLE    = "multicastEnable";
+  const MULTICAST_DEVICE    = "multicastDevice";
+  const MULTICAST_TR_ENABLE = "multicastTransferRateEnable";
+  const MULTICAST_TR        = "multicastTranserRate";
+
+
   /**
    * Gives the format which a config input should have. Default is string if it's not a known config.
    * @param $config string
@@ -125,10 +145,32 @@ class DConfig {
         return DConfigType::TICKBOX;
       case DConfig::SHOW_TASK_PERFORMANCE:
         return DConfigType::TICKBOX;
+      case DConfig::RULE_SPLIT_ALWAYS:
+        return DConfigType::TICKBOX;
+      case DConfig::RULE_SPLIT_SMALL_TASKS:
+        return DConfigType::TICKBOX;
+      case DConfig::RULE_SPLIT_DISABLE:
+        return DConfigType::TICKBOX;
+      case DConfig::PRINCE_LINK:
+        return DConfigType::STRING_INPUT;
+      case DConfig::AGENT_STAT_LIMIT:
+        return DConfigType::NUMBER_INPUT;
+      case DConfig::AGENT_DATA_LIFETIME:
+        return DConfigType::NUMBER_INPUT;
+      case DConfig::AGENT_STAT_TENSION:
+        return DConfigType::TICKBOX;
+      case DConfig::MULTICAST_ENABLE:
+        return DConfigType::TICKBOX;
+      case DConfig::MULTICAST_DEVICE:
+        return DConfigType::STRING_INPUT;
+      case DConfig::MULTICAST_TR_ENABLE:
+        return DConfigType::TICKBOX;
+      case DConfig::MULTICAST_TR:
+        return DConfigType::NUMBER_INPUT;
     }
     return DConfigType::STRING_INPUT;
   }
-  
+
   /**
    * @param $config string
    * @return string
@@ -160,7 +202,7 @@ class DConfig {
       case DConfig::BASE_URL:
         return "Base url for the webpage (this does not include hostname and is normally determined automatically on the installation)";
       case DConfig::DISP_TOLERANCE:
-        return "Allowable deviation in the final chunk of a task in percent. (avoids issuing small chunks when the remaining part of a task is slightly bigger than the normal chunk size)";
+        return "Allowable deviation in the final chunk of a task in percent.<br>(avoids issuing small chunks when the remaining part of a task is slightly bigger than the normal chunk size)";
       case DConfig::BATCH_SIZE:
         return "Batch size of SQL query when hashlist is sent to the agent";
       case DConfig::YUBIKEY_ID:
@@ -199,6 +241,28 @@ class DConfig {
         return "Use speed benchmark as default.";
       case DConfig::SHOW_TASK_PERFORMANCE:
         return "Show cracks/minute for tasks which are running.";
+      case DConfig::RULE_SPLIT_SMALL_TASKS:
+        return "When rule splitting is applied for tasks, always make them a small task.";
+      case DConfig::RULE_SPLIT_ALWAYS:
+        return "Even do rule splitting when there are not enough rules but just the benchmark is too high.<br>Can result in subtasks with just one rule.";
+      case DConfig::RULE_SPLIT_DISABLE:
+        return "Disable automatic task splitting with large rule files.";
+      case DConfig::PRINCE_LINK:
+        return "Download link for the prince preprocessor binaries.";
+      case DConfig::AGENT_STAT_LIMIT:
+        return "Maximal number of data points showing of agent gpu data.";
+      case DConfig::AGENT_DATA_LIFETIME:
+        return "Minimum time in seconds how long agent data about gpu temperature and utility is kept on the server.";
+      case DConfig::AGENT_STAT_TENSION:
+        return "Draw straigth lines in agent data graph  instead of bezier curves.";
+      case DConfig::MULTICAST_ENABLE:
+        return "Enable UDP multicast distribution of files to agents. (Make sure you did all the preparation before activating)<br>You can read more informations here: <a href='https://github.com/s3inlc/hashtopolis-runner/blob/master/README.md' target='_blank'>https://github.com/s3inlc/hashtopolis-runner</a>";
+      case DConfig::MULTICAST_DEVICE:
+        return "Network device of the server to be used for the multicast distribution.";
+      case DConfig::MULTICAST_TR_ENABLE:
+        return "Instead of the built in UFTP flow control, use a static set transfer rate<br>(Important: Setting this value wrong can affect the functionality, only use this if you are sure this transfer rate is feasible)";
+      case DConfig::MULTICAST_TR:
+        return "Set static transfer rate in case it is activated (in Kbit/s)";
     }
     return $config;
   }

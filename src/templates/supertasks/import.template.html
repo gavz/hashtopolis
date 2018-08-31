@@ -9,8 +9,8 @@
 <form class='form-inline' action="supertasks.php" method="POST">
 	<input type='hidden' name='action' value='[[$DSupertaskAction::IMPORT_SUPERTASK]]'>
 	<input type="hidden" name="csrf" value="[[csrf]]">
-	<div class="panel panel-default">
-		<table class="table table-bordered table-nonfluid">
+  <div class="table-responsive">
+    <table class="table table-bordered">
 			<tr>
 				<td style="width: 150px;">Name:</td>
 				<td>
@@ -40,7 +40,7 @@
 				<td>
 					<select name="crackerBinaryTypeId" class="form-control" title="Cracker Binary">
 						{{FOREACH crackerBinaryType;[[crackerBinaryTypes]]}}
-						<option value="[[crackerBinaryType.getId()]]">[[crackerBinaryType.getTypeName()]]</option>
+							<option value="[[crackerBinaryType.getId()]]">[[crackerBinaryType.getTypeName()]]</option>
 						{{ENDFOREACH}}
 					</select>
 				</td>
@@ -53,10 +53,10 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-					<input type="submit" class='btn btn-default' value="Create Supertask">
+					<input type="submit" class='btn btn-light' value="Create Supertask">
 				</td>
 			</tr>
 		</table>
-	</div>
+  </div>
 </form>
 {%TEMPLATE->struct/foot%}

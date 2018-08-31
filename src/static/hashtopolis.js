@@ -1,6 +1,6 @@
 function expansionCheck(elementId) {
-    var isExpanded = $(elementId).attr("aria-expanded");
-    if (isExpanded === "false") {
+    var isHidden = $(elementId).is(":hidden");
+    if (isHidden === true) {
         window.localStorage.setItem(elementId, "yes");
     }
     else {
@@ -14,3 +14,7 @@ function checkOnLoading(elementId) {
         $(elementId).collapse("show");
     }
 }
+
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})

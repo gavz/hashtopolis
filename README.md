@@ -2,6 +2,10 @@
 
 <img src="https://github.com/s3inlc/hashtopolis/blob/master/src/static/logo.png" alt='Hashtopolis' width="100">
 
+[![CodeFactor](https://www.codefactor.io/repository/github/s3inlc/hashtopolis/badge)](https://www.codefactor.io/repository/github/s3inlc/hashtopolis)
+[![LoC](https://tokei.rs/b1/github/s3inlc/Hashtopolis?category=code)](https://github.com/s3inlc/Hashtopolis)
+[![Test Status](https://travis-ci.org/s3inlc/hashtopolis.svg?branch=master)](https://travis-ci.org/s3inlc/hashtopolis)
+
 Hashtopolis is a multi-platform client-server tool for distributing hashcat tasks to multiple computers. The main goals for Hashtopolis's development are portability, robustness, multi-user support, and multiple groups management.
 The application has two parts:
 
@@ -73,3 +77,4 @@ ETH: 0x06B3Ae7561AD763eF58Df9C37deB6757bDA2BC0c
 * atom for [hashcat](https://github.com/hashcat/hashcat)
 * curlyboi for the original [Hashtopus](https://github.com/curlyboi/hashtopus) code
 * 7zip binaries are compiled from [here](https://sourceforge.net/projects/sevenzip/files/7-Zip/16.04/)
+* uftp binaries are compiled from [here](http://uftp-multicast.sourceforge.net/)

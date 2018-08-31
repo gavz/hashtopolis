@@ -28,9 +28,7 @@ CREATE TABLE `AccessGroup` (
   `accessGroupId` INT(11)     NOT NULL,
   `groupName`     VARCHAR(50) NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -43,9 +41,7 @@ CREATE TABLE `AccessGroupAgent` (
   `accessGroupId`      INT(11) NOT NULL,
   `agentId`            INT(11) NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -58,9 +54,7 @@ CREATE TABLE `AccessGroupUser` (
   `accessGroupId`     INT(11) NOT NULL,
   `userId`            INT(11) NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -70,7 +64,7 @@ CREATE TABLE `AccessGroupUser` (
 
 CREATE TABLE `Agent` (
   `agentId`         INT(11)                      NOT NULL,
-  `agentName`       VARCHAR(50)
+  `agentName`       VARCHAR(100)
                     COLLATE utf8_unicode_ci      NOT NULL,
   `uid`             VARCHAR(100)
                     COLLATE utf8_unicode_ci      NOT NULL,
@@ -92,9 +86,7 @@ CREATE TABLE `Agent` (
   `cpuOnly`         TINYINT(4)                   NOT NULL,
   `clientSignature` VARCHAR(50)                  NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -113,17 +105,15 @@ CREATE TABLE `AgentBinary` (
   `filename`         VARCHAR(50)
                      COLLATE utf8_unicode_ci NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 --
 -- Daten für Tabelle `AgentBinary`
 --
 
 INSERT INTO `AgentBinary` (`agentBinaryId`, `type`, `version`, `operatingSystems`, `filename`) VALUES
-  (1, 'csharp', '0.52.1', 'Windows, Linux(mono), OS X(mono)', 'hashtopolis.exe'),
-  (2, 'python', '0.1.3', 'Windows, Linux, OS X', 'hashtopolis.zip');
+  (1, 'csharp', '0.52.2', 'Windows, Linux(mono), OS X(mono)', 'hashtopolis.exe'),
+  (2, 'python', '0.2.0', 'Windows, Linux, OS X', 'hashtopolis.zip');
 
 -- --------------------------------------------------------
 
@@ -138,9 +128,7 @@ CREATE TABLE `AgentError` (
   `time`         INT(11)                      NOT NULL,
   `error`        TEXT COLLATE utf8_unicode_ci NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -152,12 +140,10 @@ CREATE TABLE `AgentStat` (
   `agentStatId` INT(11) NOT NULL,
   `agentId`     INT(11) NOT NULL,
   `statType`    INT(11) NOT NULL,
-  `time`        INT(11) NOT NULL,
-  `value`       INT(11) NOT NULL
+  `time`        BIGINT NOT NULL,
+  `value`       VARCHAR(64) NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -170,9 +156,7 @@ CREATE TABLE `AgentZap` (
   `agentId`    INT(11) NOT NULL,
   `lastZapId`  INT(11) NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -187,9 +171,7 @@ CREATE TABLE `Assignment` (
   `benchmark`    VARCHAR(50)
                  COLLATE utf8_unicode_ci NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -211,9 +193,7 @@ CREATE TABLE `Chunk` (
   `cracked`      INT(11)    NOT NULL,
   `speed`        BIGINT(20) NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -228,9 +208,7 @@ CREATE TABLE `Config` (
                     COLLATE utf8_unicode_ci      NOT NULL,
   `value`           TEXT COLLATE utf8_unicode_ci NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 --
 -- Daten für Tabelle `Config`
@@ -245,10 +223,10 @@ INSERT INTO `Config` (`configId`, `configSectionId`, `item`, `value`) VALUES
   (10, 1, 'hashlistAlias', '#HL#'),
   (11, 1, 'statustimer', '5'),
   (12, 4, 'timefmt', 'd.m.Y, H:i:s'),
-  (13, 1, 'blacklistChars', '&|`\"\'{}()[]$<>'),
+  (13, 1, 'blacklistChars', '&|`\"\'{}()[]$<>;'),
   (14, 3, 'numLogEntries', '5000'),
   (15, 1, 'disptolerance', '20'),
-  (16, 3, 'batchSize', '10000'),
+  (16, 3, 'batchSize', '50000'),
   (18, 2, 'yubikey_id', ''),
   (19, 2, 'yubikey_key', ''),
   (20, 2, 'yubikey_url', 'http://api.yubico.com/wsapi/2.0/verify'),
@@ -266,8 +244,19 @@ INSERT INTO `Config` (`configId`, `configSectionId`, `item`, `value`) VALUES
   (32, 5, 'voucherDeletion', '0'),
   (33, 4, 'hashesPerPage', '1000'),
   (34, 4, 'hideIpInfo', '0'),
-  (35, 1, 'defaultBenchmark', '0'),
-  (36, 4, 'showTaskPerformance', '0');
+  (35, 1, 'defaultBenchmark', '1'),
+  (36, 4, 'showTaskPerformance', '0'),
+  (37, 1, 'ruleSplitSmallTasks', '0'),
+  (38, 1, 'ruleSplitAlways', '0'),
+  (39, 1, 'ruleSplitDisable', '0'),
+  (40, 1, 'princeLink', 'https://github.com/hashcat/princeprocessor/releases/download/v0.22/princeprocessor-0.22.7z'),
+  (41, 4, 'agentStatLimit', '100'),
+  (42, 1, 'agentDataLifetime', '3600'),
+  (43, 4, 'agentStatTension', '0'),
+  (44, 6, 'multicastEnable', '0'),
+  (45, 6, 'multicastDevice', 'eth0'),
+  (46, 6, 'multicastTransferRateEnable', '0'),
+  (47, 6, 'multicastTranserRate', '500000');
 
 -- --------------------------------------------------------
 
@@ -280,9 +269,7 @@ CREATE TABLE `ConfigSection` (
   `sectionName`     VARCHAR(100)
                     COLLATE utf8_unicode_ci NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 --
 -- Daten für Tabelle `ConfigSection`
@@ -311,9 +298,10 @@ CREATE TABLE `CrackerBinary` (
   `binaryName`          VARCHAR(50)
                         COLLATE utf8_unicode_ci NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
+
+INSERT INTO `CrackerBinary` (`crackerBinaryId`, `crackerBinaryTypeId`, `version`, `downloadUrl`, `binaryName`) VALUES
+  (1, 1, '4.2.1', 'https://hashcat.net/files/hashcat-4.2.1.7z', 'hashcat');
 
 -- --------------------------------------------------------
 
@@ -327,9 +315,10 @@ CREATE TABLE `CrackerBinaryType` (
                         COLLATE utf8_unicode_ci NOT NULL,
   `isChunkingAvailable` INT(11)                 NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
+
+INSERT INTO `CrackerBinaryType` (`crackerBinaryTypeId`, `typeName`, `isChunkingAvailable`) VALUES
+  (1, 'hashcat', 1);
 
 -- --------------------------------------------------------
 
@@ -343,11 +332,10 @@ CREATE TABLE `File` (
              COLLATE utf8_unicode_ci NOT NULL,
   `size`     BIGINT(20)              NOT NULL,
   `isSecret` INT(11)                 NOT NULL,
-  `fileType` INT(11)                 NOT NULL
+  `fileType` INT(11)                 NOT NULL,
+  `accessGroupId` INT(11)            NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -360,9 +348,7 @@ CREATE TABLE `FilePretask` (
   `fileId`        INT(11) NOT NULL,
   `pretaskId`     INT(11) NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -375,9 +361,13 @@ CREATE TABLE `FileTask` (
   `fileId`     INT(11) NOT NULL,
   `taskId`     INT(11) NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
+
+CREATE TABLE `FileDelete` (
+  `fileDeleteId` int(11) NOT NULL,
+  `filename` varchar(256) NOT NULL,
+  `time` int(11) NOT NULL
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -398,9 +388,7 @@ CREATE TABLE `Hash` (
   `chunkId`     INT(11)                 DEFAULT NULL,
   `isCracked`   TINYINT(4)              NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -420,9 +408,7 @@ CREATE TABLE `HashBinary` (
   `chunkId`      INT(11)                 DEFAULT NULL,
   `isCracked`    TINYINT(4)                         NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -445,9 +431,7 @@ CREATE TABLE `Hashlist` (
   `isSalted`      TINYINT(4)              NOT NULL,
   `accessGroupId` INT(11)                 NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -460,9 +444,7 @@ CREATE TABLE `HashlistHashlist` (
   `parentHashlistId`   INT(11) NOT NULL,
   `hashlistId`         INT(11) NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -476,9 +458,7 @@ CREATE TABLE `HashType` (
                 COLLATE utf8_unicode_ci NOT NULL,
   `isSalted`    TINYINT(4)              NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 --
 -- Daten für Tabelle `HashType`
@@ -716,6 +696,10 @@ INSERT INTO `HashType` (`hashTypeId`, `description`, `isSalted`) VALUES
   (16400, 'CRAM-MD5 Dovecot', 0),
   (16500, 'JWT (JSON Web Token)', 0),
   (16600, 'Electrum Wallet (Salt-Type 1-3)', 0),
+  (16700, 'FileVault 2', 0),
+  (16800, 'WPA-PMKID-PBKDF2', 0),
+  (16801, 'WPA-PMKID-PMK', 0),
+  (16900, 'Ansible Vault', 0),
   (99999, 'Plaintext', 0);
 
 -- --------------------------------------------------------
@@ -735,9 +719,7 @@ CREATE TABLE `LogEntry` (
   `message`    TEXT COLLATE utf8_unicode_ci NOT NULL,
   `time`       INT(11)                      NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -757,9 +739,7 @@ CREATE TABLE `NotificationSetting` (
                           COLLATE utf8_unicode_ci NOT NULL,
   `isActive`              TINYINT(4)              NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -776,7 +756,7 @@ CREATE TABLE `Pretask` (
   `chunkTime`           INT(11)                 NOT NULL,
   `statusTimer`         INT(11)                 NOT NULL,
   `color`               VARCHAR(20)
-                        COLLATE utf8_unicode_ci NOT NULL,
+                        COLLATE utf8_unicode_ci NULL,
   `isSmall`             INT(11)                 NOT NULL,
   `isCpuTask`           INT(11)                 NOT NULL,
   `useNewBench`         INT(11)                 NOT NULL,
@@ -784,9 +764,7 @@ CREATE TABLE `Pretask` (
   `isMaskImport`        INT(11)                 NOT NULL,
   `crackerBinaryTypeId` INT(11)                 NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -800,9 +778,7 @@ CREATE TABLE `RegVoucher` (
                  COLLATE utf8_unicode_ci NOT NULL,
   `time`         INT(11)                 NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -814,22 +790,16 @@ CREATE TABLE `RightGroup` (
   `rightGroupId` INT(11)                 NOT NULL,
   `groupName`    VARCHAR(50)
                  COLLATE utf8_unicode_ci NOT NULL,
-  `level`        INT(11)                 NOT NULL
+  `permissions`  TEXT                    NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 --
 -- Daten für Tabelle `RightGroup`
 --
 
-INSERT INTO `RightGroup` (`rightGroupId`, `groupName`, `level`) VALUES
-  (1, 'View User', 1),
-  (2, 'Read Only User', 5),
-  (3, 'Normal User', 20),
-  (4, 'Superuser', 30),
-  (5, 'Administrator', 50);
+INSERT INTO `RightGroup` (`rightGroupId`, `groupName`, `permissions`) VALUES
+  (1, 'Administrator', 'ALL');
 
 -- --------------------------------------------------------
 
@@ -847,9 +817,7 @@ CREATE TABLE `Session` (
   `sessionKey`       VARCHAR(256)
                      COLLATE utf8_unicode_ci NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -863,9 +831,7 @@ CREATE TABLE `StoredValue` (
   `val`           VARCHAR(256)
                   COLLATE utf8_unicode_ci NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -878,9 +844,7 @@ CREATE TABLE `Supertask` (
   `supertaskName` VARCHAR(50)
                   COLLATE utf8_unicode_ci NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -893,9 +857,7 @@ CREATE TABLE `SupertaskPretask` (
   `supertaskId`        INT(11) NOT NULL,
   `pretaskId`          INT(11) NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -905,7 +867,7 @@ CREATE TABLE `SupertaskPretask` (
 
 CREATE TABLE `Task` (
   `taskId`              INT(11)                 NOT NULL,
-  `taskName`            VARCHAR(100)
+  `taskName`            VARCHAR(256)
                         COLLATE utf8_unicode_ci NOT NULL,
   `attackCmd`           VARCHAR(256)
                         COLLATE utf8_unicode_ci NOT NULL,
@@ -922,11 +884,21 @@ CREATE TABLE `Task` (
   `skipKeyspace`        BIGINT(20)              NOT NULL,
   `crackerBinaryId`     INT(11) DEFAULT NULL,
   `crackerBinaryTypeId` INT(11)                 NULL,
-  `taskWrapperId`       INT(11)                 NOT NULL
+  `taskWrapperId`       INT(11)                 NOT NULL,
+  `isArchived`          INT(11)                 NOT NULL,
+  `isPrince`            INT(11)                 NOT NULL,
+  `notes`               TEXT                    NOT NULL,
+  `staticChunks`        INT(11)                 NOT NULL,
+  `chunkSize`           BIGINT(20)              NOT NULL,
+  `forcePipe`           INT(11)                 NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
+
+CREATE TABLE `TaskDebugOutput` (
+  `taskDebugOutputId` int(11) NOT NULL,
+  `taskId` int(11) NOT NULL,
+  `output` varchar(256) NOT NULL
+) ENGINE=InnoDB;
 
 -- --------------------------------------------------------
 
@@ -940,11 +912,10 @@ CREATE TABLE `TaskWrapper` (
   `taskType`        INT(11)      NOT NULL,
   `hashlistId`      INT(11)      NOT NULL,
   `accessGroupId`   INT(11) DEFAULT NULL,
-  `taskWrapperName` VARCHAR(100) NOT NULL
+  `taskWrapperName` VARCHAR(100) NOT NULL,
+  `isArchived`      INT(11)      NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -979,9 +950,7 @@ CREATE TABLE `User` (
   `otp4`               VARCHAR(256)
                        COLLATE utf8_unicode_ci DEFAULT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
 
 -- --------------------------------------------------------
 
@@ -997,9 +966,50 @@ CREATE TABLE `Zap` (
   `agentId`    INT(11)                 NULL,
   `hashlistId` INT(11)                 NOT NULL
 )
-  ENGINE = InnoDB
-  DEFAULT CHARSET = utf8
-  COLLATE = utf8_unicode_ci;
+  ENGINE = InnoDB;
+
+
+
+CREATE TABLE `ApiKey` (
+  `apiKeyId` int(11) NOT NULL,
+  `startValid` bigint(20) NOT NULL,
+  `endValid` bigint(20) NOT NULL,
+  `accessKey` varchar(256) NOT NULL,
+  `accessCount` int(11) NOT NULL,
+  `userId` int(11) NOT NULL,
+  `apiGroupId` int(11) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE `ApiGroup` (
+  `apiGroupId` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `permissions` text NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE `FileDownload` (
+  `fileDownloadId` int(11) NOT NULL,
+  `time` int(11) NOT NULL,
+  `fileId` int(11) NOT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB;
+
+INSERT INTO `ApiGroup` ( `apiGroupId`, `name`, `permissions`) VALUES (1, 'Administrators', 'ALL');
+
+--
+-- Indexes for table `ApiKey`
+--
+ALTER TABLE `ApiKey`
+  ADD PRIMARY KEY (`apiKeyId`);
+
+ALTER TABLE `ApiGroup`
+  ADD PRIMARY KEY (`apiGroupId`);
+
+ALTER TABLE `FileDownload`
+  ADD PRIMARY KEY (`fileDownloadId`);
+
+
+ALTER TABLE `FileDelete`
+  ADD PRIMARY KEY (`fileDeleteId`);
 
 --
 -- Indizes der exportierten Tabellen
@@ -1231,6 +1241,9 @@ ALTER TABLE `Task`
   ADD PRIMARY KEY (`taskId`),
   ADD KEY `crackerBinaryId` (`crackerBinaryId`);
 
+ALTER TABLE `TaskDebugOutput`
+  ADD PRIMARY KEY (`taskDebugOutputId`);
+
 --
 -- Indizes für die Tabelle `TaskWrapper`
 --
@@ -1258,6 +1271,19 @@ ALTER TABLE `Zap`
 --
 -- AUTO_INCREMENT für exportierte Tabellen
 --
+
+ALTER TABLE `ApiKey`
+  MODIFY `apiKeyId` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `ApiGroup`
+  MODIFY `apiGroupId` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `FileDownload`
+  MODIFY `fileDownloadId` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `FileDelete`
+  MODIFY `fileDeleteId` int(11) NOT NULL AUTO_INCREMENT;
+
 
 --
 -- AUTO_INCREMENT für Tabelle `AccessGroup`
@@ -1413,6 +1439,10 @@ ALTER TABLE `SupertaskPretask`
 --
 ALTER TABLE `Task`
   MODIFY `taskId` INT(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `TaskDebugOutput`
+  MODIFY `taskDebugOutputId` int(11) NOT NULL AUTO_INCREMENT;
+  
 --
 -- AUTO_INCREMENT für Tabelle `TaskWrapper`
 --
